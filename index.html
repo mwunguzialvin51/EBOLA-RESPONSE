@@ -1,0 +1,587 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#05668d;--brand-dark:#044e6b;--brand-xdark:#033a50;
+  --brand-light:#e6f3f8;--brand-mid:#cce6f0;
+  --teal:#028090;--teal-light:#e0f4f6;
+  --green:#00a896;--green-light:#e0f5f3;
+  --amber:#f4a261;--amber-light:#fef3e8;
+  --red:#e63946;--red-light:#fdecea;
+  --yellow:#f9c74f;--yellow-light:#fef9e7;
+  --gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;
+  --gray-400:#94a3b8;--gray-600:#475569;--gray-800:#1e293b;
+  --white:#fff;--text:#1e293b;--text-muted:#64748b;
+}
+#app{font-family:'Segoe UI',system-ui,sans-serif;background:var(--gray-50);color:var(--text);min-height:500px;font-size:14px;line-height:1.5}
+
+/* NAV */
+.nav{
+  background:var(--brand);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;height:54px;gap:12px;
+  position:sticky;top:0;z-index:200;
+}
+.nav-brand{
+  display:flex;align-items:center;gap:10px;
+  color:#fff;font-weight:700;font-size:15px;cursor:pointer;white-space:nowrap;flex-shrink:0;
+}
+.nav-logo{
+  width:32px;height:32px;background:rgba(255,255,255,.2);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:800;color:#fff;
+}
+.nav-links{
+  display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+.nav-links::-webkit-scrollbar{display:none}
+.nl{
+  background:none;border:none;color:rgba(255,255,255,.75);
+  padding:6px 11px;border-radius:6px;font-size:12px;font-weight:500;
+  cursor:pointer;white-space:nowrap;transition:.15s;
+}
+.nl:hover{background:rgba(255,255,255,.12);color:#fff}
+.nl.on{background:rgba(255,255,255,.2);color:#fff;font-weight:700}
+
+/* LAYOUT */
+.page{padding:20px;max-width:940px;margin:0 auto;animation:fi .2s ease}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;
+  cursor:pointer;border:none;transition:.15s;
+}
+.btn-brand{background:var(--brand);color:#fff}
+.btn-brand:hover{background:var(--brand-dark)}
+.btn-outline{background:#fff;color:var(--brand);border:1.5px solid var(--brand)}
+.btn-outline:hover{background:var(--brand-light)}
+.btn-white{background:#fff;color:var(--brand);border:none;font-weight:700}
+.btn-white:hover{background:var(--brand-light)}
+.btn-ghost-white{background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.4)}
+.btn-ghost-white:hover{background:rgba(255,255,255,.25)}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#c62f3b}
+.btn-sm{padding:6px 14px;font-size:12px}
+
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--gray-200);border-radius:12px;padding:20px}
+.card-sm{padding:14px 16px;border-radius:10px}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.3px}
+.b-high{background:var(--red-light);color:#b91c1c}
+.b-med{background:var(--yellow-light);color:#92400e}
+.b-low{background:var(--green-light);color:#065f46}
+.b-info{background:var(--brand-light);color:var(--brand-dark)}
+
+/* FORMS */
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.fg input,.fg select,.fg textarea{
+  width:100%;padding:9px 12px;border:1.5px solid var(--gray-200);
+  border-radius:8px;font-size:14px;font-family:inherit;
+  background:#fff;color:var(--text);outline:none;transition:.15s;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--brand)}
+
+/* TOGGLE */
+.tog{position:relative;width:42px;height:23px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.ts{position:absolute;inset:0;background:var(--gray-200);border-radius:20px;cursor:pointer;transition:.2s}
+.ts:before{content:'';position:absolute;width:17px;height:17px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.tog input:checked+.ts{background:var(--brand)}
+.tog input:checked+.ts:before{transform:translateX(19px)}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--gray-200)}
+table{width:100%;border-collapse:collapse;min-width:480px}
+th{background:var(--gray-50);padding:9px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--gray-200)}
+td{padding:10px 14px;border-bottom:1px solid var(--gray-100);font-size:13px;color:var(--gray-800);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--gray-50)}
+
+/* YN QUESTION */
+.yn-btn{
+  flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;
+  cursor:pointer;border:2px solid var(--gray-200);background:#fff;color:var(--text-muted);transition:.15s;
+}
+.yn-btn:hover{border-color:var(--gray-400)}
+.yn-yes{border-color:var(--red)!important;background:var(--red-light)!important;color:#b91c1c!important}
+.yn-no{border-color:var(--green)!important;background:var(--green-light)!important;color:#065f46!important}
+
+/* ALERT STRIP */
+.al-strip{
+  background:#fff;border:1px solid var(--gray-200);border-radius:10px;
+  display:flex;gap:14px;align-items:flex-start;padding:14px 16px;margin-bottom:10px;
+}
+.al-HIGH{border-left:4px solid var(--red);border-radius:0 10px 10px 0}
+.al-MEDIUM{border-left:4px solid var(--amber);border-radius:0 10px 10px 0}
+.al-INFO{border-left:4px solid var(--brand);border-radius:0 10px 10px 0}
+.al-LOW{border-left:4px solid var(--green);border-radius:0 10px 10px 0}
+.al-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.d-HIGH{background:var(--red)}.d-MEDIUM{background:var(--amber)}.d-INFO{background:var(--brand)}.d-LOW{background:var(--green)}
+
+/* DISCLAIMER */
+.disc{background:var(--yellow-light);border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:12px;color:#78350f;margin-top:14px}
+
+/* SUCCESS */
+.success-box{background:var(--green-light);border:1.5px solid var(--green);border-radius:10px;padding:20px;text-align:center}
+</style>
+
+<div id="app">
+<nav class="nav">
+  <div class="nav-brand" onclick="go('home')">
+    <div class="nav-logo">E</div>
+    <span>ECEWRP</span>
+  </div>
+  <div class="nav-links" id="nav"></div>
+</nav>
+<div id="root"></div>
+</div>
+
+<script>
+const NAV_ITEMS=[['home','Home'],['symptom','Symptoms'],['report','Report'],['education','Education'],['alerts','Alerts'],['admin','Admin']];
+const DISTRICTS=['Kampala','Gulu','Mbarara','Jinja','Masaka','Mbale','Lira','Arua','Fort Portal','Soroti','Tororo','Kabale','Entebbe','Mukono','Other'];
+const QS=[
+  {k:'fever',q:'Do you currently have a fever above 38°C?'},
+  {k:'vomit',q:'Are you experiencing vomiting or severe nausea?'},
+  {k:'bleed',q:'Any unusual bleeding — from gums, nose, skin, or eyes?'},
+  {k:'contact',q:'Close contact with a suspected Ebola case in the last 21 days?'},
+  {k:'travel',q:'Recently travelled to an area with an active Ebola outbreak?'},
+];
+const REPORTS=[
+  {id:1,name:'Anonymous',district:'Kampala',symptoms:'Fever, vomiting, fatigue',contact:'Yes – family member',date:'2025-05-20',risk:'High'},
+  {id:2,name:'J. Okello',district:'Gulu',symptoms:'Fever, headache',contact:'No known contact',date:'2025-05-19',risk:'Medium'},
+  {id:3,name:'Anonymous',district:'Mbarara',symptoms:'Mild fever',contact:'No',date:'2025-05-18',risk:'Low'},
+  {id:4,name:'M. Nakato',district:'Jinja',symptoms:'Fever, bleeding gums, vomiting',contact:'Yes – healthcare worker',date:'2025-05-17',risk:'High'},
+  {id:5,name:'Anonymous',district:'Masaka',symptoms:'Fever, body aches',contact:'Possible',date:'2025-05-16',risk:'Medium'},
+];
+const ALERTS=[
+  {id:1,type:'HIGH',title:'Suspected case – Gulu District',msg:'A suspected Ebola case reported in Gulu. Health workers deployed. Avoid contact with symptomatic individuals.',time:'2 hrs ago'},
+  {id:2,type:'MEDIUM',title:'Contact tracing active – Kampala',msg:'Contact tracing underway in Kampala. Citizens asked to report symptoms immediately.',time:'6 hrs ago'},
+  {id:3,type:'INFO',title:'Health teams mobilised – Eastern Region',msg:'Uganda NIPH teams deployed across Eastern Uganda. Screening checkpoints now active.',time:'1 day ago'},
+  {id:4,type:'INFO',title:'WHO support confirmed',msg:'WHO confirmed logistical and diagnostic support to Uganda. Rapid response teams on standby.',time:'2 days ago'},
+  {id:5,type:'LOW',title:'Routine surveillance update',msg:'No new confirmed cases in 48 hours. Surveillance continues in border districts.',time:'3 days ago'},
+];
+
+let S={
+  page:'home',admin:false,
+  ans:{},result:null,
+  form:{name:'',phone:'',district:'',symptoms:'',contact:''},
+  submitted:false,
+  reports:[...REPORTS],
+  user:'',pass:'',err:'',
+  sms:true,email:false,alertF:'ALL',
+};
+
+function go(p){
+  S.page=p;
+  if(p!=='symptom'){S.ans={};S.result=null;}
+  if(p!=='report')S.submitted=false;
+  render();
+}
+
+function render(){
+  document.getElementById('nav').innerHTML=NAV_ITEMS.map(([id,lbl])=>
+    `<button class="nl${S.page===id?' on':''}" onclick="go('${id}')">${lbl}</button>`
+  ).join('');
+  const r=document.getElementById('root');
+  const pages={home:pHome,symptom:pSymptom,report:pReport,education:pEdu,alerts:pAlerts,admin:()=>S.admin?pDash():pLogin()};
+  r.innerHTML=(pages[S.page]||pHome)();
+}
+
+/* ── HOME ── */
+function pHome(){return`
+<div class="page">
+
+  <!-- HERO: 2-col flex -->
+  <div style="background:var(--brand);border-radius:16px;padding:36px 32px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <div style="flex:1;min-width:220px">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:#fff;letter-spacing:.5px;margin-bottom:14px;text-transform:uppercase">🇺🇬 Uganda Prototype</div>
+      <h1 style="font-size:clamp(20px,3.5vw,30px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:12px">Ebola Community Early Warning &amp; Response Platform</h1>
+      <p style="color:rgba(255,255,255,.85);font-size:13px;line-height:1.7;margin-bottom:22px;max-width:440px">Empowering communities and health workers to detect, report, and respond to Ebola outbreaks faster — protecting lives across Uganda's 146 districts.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-white" onclick="go('symptom')"><i class="ti ti-stethoscope" aria-hidden="true"></i> Check Symptoms</button>
+        <button class="btn btn-ghost-white" onclick="go('admin')"><i class="ti ti-lock" aria-hidden="true"></i> Admin Login</button>
+      </div>
+    </div>
+    <!-- stat cluster -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex-shrink:0">
+      ${[['5','Total Reports','#fff'],['2','High Risk','#fca5a5'],['2','Medium Risk','#fcd34d'],['1','Low Risk','#6ee7b7']].map(([n,l,c])=>`
+      <div style="background:rgba(255,255,255,.12);border-radius:10px;padding:14px 16px;text-align:center">
+        <div style="font-size:26px;font-weight:800;color:${c};line-height:1">${n}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:3px;font-weight:500">${l}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- FEATURES: 3-col grid -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:20px">
+    ${[
+      ['ti-stethoscope','Symptom Checker','Step-by-step risk assessment for individuals in real time','#05668d'],
+      ['ti-clipboard-list','Case Reporting','Secure, anonymous reporting directly to health authorities','#028090'],
+      ['ti-book','Health Education','Evidence-based info on Ebola symptoms and prevention','#00a896'],
+      ['ti-bell','Alert System','Real-time SMS and email alerts for affected districts','#f4a261'],
+      ['ti-chart-bar','Admin Dashboard','Centralised data for monitoring and coordinating response','#e63946'],
+    ].map(([icon,title,desc,ac])=>`
+    <div class="card card-sm" style="display:flex;flex-direction:column;gap:10px">
+      <div style="width:38px;height:38px;border-radius:10px;background:${ac}1a;display:flex;align-items:center;justify-content:center;color:${ac};font-size:20px">
+        <i class="ti ${icon}" aria-hidden="true"></i>
+      </div>
+      <div style="font-weight:700;font-size:13px;color:var(--text)">${title}</div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.5;flex:1">${desc}</div>
+    </div>`).join('')}
+  </div>
+
+  <!-- WHY IT MATTERS: 2-col flex -->
+  <div class="card" style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;margin-bottom:20px">
+    <div style="flex:1;min-width:200px">
+      <div style="font-size:11px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Why it matters</div>
+      <h2 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:10px">Early detection saves lives</h2>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:14px">Uganda has faced multiple Ebola outbreaks — including the 2022 Sudan strain. This platform reduces reporting delays from <strong>days to minutes</strong>, equipping frontline workers with tools to act fast in low-bandwidth environments.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-brand btn-sm" onclick="go('symptom')">Get started <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+        <button class="btn btn-outline btn-sm" onclick="go('education')">Learn about Ebola</button>
+      </div>
+    </div>
+    <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:10px">
+      ${[['ti-clock','Minutes, not days','Symptoms flagged and routed to health teams instantly'],['ti-map-pin','All 146 districts','Designed for rural Uganda — mobile-first, low-bandwidth'],['ti-shield-check','Fully anonymous','Reporter identity protected by default at all times']].map(([ico,t,d])=>`
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--brand-light);border-radius:10px">
+        <div style="color:var(--brand);font-size:20px;flex-shrink:0"><i class="ti ${ico}" aria-hidden="true"></i></div>
+        <div><div style="font-weight:700;font-size:13px;color:var(--brand-xdark)">${t}</div><div style="font-size:12px;color:var(--brand-dark);margin-top:2px">${d}</div></div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+</div>`;}
+
+/* ── SYMPTOM ── */
+function pSymptom(){
+  if(S.result){
+    const cfg={High:{bg:'var(--red-light)',bc:'var(--red)',tc:'#991b1b',icon:'ti-alert-triangle',label:'High Risk',msg:'Seek immediate medical attention. Contact your nearest health facility now. Do not travel through populated areas.'},Medium:{bg:'var(--yellow-light)',bc:'var(--amber)',tc:'#92400e',icon:'ti-alert-circle',label:'Medium Risk',msg:'Isolate and contact a health worker within 24 hours. Avoid close contact with family members until assessed.'},Low:{bg:'var(--green-light)',bc:'var(--green)',tc:'#065f46',icon:'ti-circle-check',label:'Low Risk',msg:'Your risk appears low. Monitor symptoms for 21 days and maintain good hygiene. Seek care if symptoms develop.'}};
+    const c=cfg[S.result];
+    return`<div class="page">
+    <div style="background:${c.bg};border:2px solid ${c.bc};border-radius:14px;padding:28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;margin-bottom:18px">
+      <div style="font-size:40px;color:${c.tc}"><i class="ti ${c.icon}" aria-hidden="true"></i></div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:${c.tc}">Risk Level</div>
+      <div style="font-size:28px;font-weight:800;color:${c.tc}">${c.label}</div>
+      <p style="font-size:14px;color:${c.tc};max-width:420px;line-height:1.6">${c.msg}</p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+      <button class="btn btn-brand" onclick="go('report')"><i class="ti ti-clipboard-list" aria-hidden="true"></i> Report this case</button>
+      <button class="btn btn-outline" onclick="S.result=null;S.ans={};render()"><i class="ti ti-refresh" aria-hidden="true"></i> Retake</button>
+    </div>
+    <div class="disc"><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>Disclaimer:</strong> This is not a medical diagnosis. For preliminary screening only. Always consult a qualified health professional.</div>
+    </div>`;
+  }
+  const done=Object.keys(S.ans).length;
+  const pct=Math.round((done/QS.length)*100);
+  return`<div class="page">
+  <!-- progress bar row -->
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+    <div style="flex:1;background:var(--gray-200);border-radius:8px;height:6px;overflow:hidden">
+      <div style="height:100%;background:var(--brand);border-radius:8px;width:${pct}%;transition:width .3s"></div>
+    </div>
+    <span style="font-size:12px;font-weight:600;color:var(--text-muted);white-space:nowrap">${done} / ${QS.length}</span>
+  </div>
+
+  <!-- questions grid: stack on small, 1-col always for readability -->
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:18px">
+    ${QS.map((q,i)=>`
+    <div class="card" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="width:28px;height:28px;border-radius:50%;background:${S.ans[q.k]?'var(--brand)':'var(--gray-100)'};color:${S.ans[q.k]?'#fff':'var(--text-muted)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${i+1}</div>
+      <div style="flex:1;font-size:14px;font-weight:500;color:var(--text);min-width:160px">${q.q}</div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="yn-btn${S.ans[q.k]==='yes'?' yn-yes':''}" onclick="S.ans['${q.k}']='yes';render()">Yes</button>
+        <button class="yn-btn${S.ans[q.k]==='no'?' yn-no':''}" onclick="S.ans['${q.k}']='no';render()">No</button>
+      </div>
+    </div>`).join('')}
+  </div>
+
+  <button class="btn btn-brand" onclick="calcRisk()" ${done<QS.length?'disabled style="opacity:.45;cursor:not-allowed"':''}>
+    <i class="ti ti-arrow-right" aria-hidden="true"></i> View my risk result
+  </button>
+  <div class="disc" style="margin-top:12px"><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>Disclaimer:</strong> This is not a medical diagnosis. For informational use only.</div>
+  </div>`;}
+
+/* ── REPORT ── */
+function pReport(){
+  if(S.submitted)return`<div class="page"><div class="success-box">
+    <div style="font-size:32px;color:var(--green);margin-bottom:10px"><i class="ti ti-circle-check" aria-hidden="true"></i></div>
+    <div style="font-size:16px;font-weight:700;color:#065f46;margin-bottom:6px">Report submitted successfully</div>
+    <div style="font-size:13px;color:#047857">A health officer will follow up shortly. Reference ID: #${Date.now().toString().slice(-6)}</div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:16px">
+      <button class="btn btn-brand btn-sm" onclick="go('home')">Back to home</button>
+      <button class="btn btn-outline btn-sm" onclick="S.submitted=false;S.form={name:'',phone:'',district:'',symptoms:'',contact:''};render()">Submit another</button>
+    </div>
+  </div></div>`;
+
+  const f=S.form;
+  return`<div class="page">
+  <div style="margin-bottom:18px">
+    <div style="font-size:11px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Step 1 of 1</div>
+    <h2 style="font-size:20px;font-weight:800;color:var(--text)">Report a suspected case</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-top:4px">All reports are treated confidentially. Your name is optional.</p>
+  </div>
+
+  <!-- 2-col form grid -->
+  <div class="card">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 16px">
+      <div class="fg"><label>Full Name (optional)</label><input type="text" value="${f.name}" placeholder="Leave blank to stay anonymous" oninput="S.form.name=this.value"></div>
+      <div class="fg"><label>Phone Number</label><input type="tel" value="${f.phone}" placeholder="+256 7XX XXX XXX" oninput="S.form.phone=this.value"></div>
+    </div>
+    <div class="fg"><label>District / Location *</label>
+      <select onchange="S.form.district=this.value">
+        <option value="">Select a district...</option>
+        ${DISTRICTS.map(d=>`<option value="${d}"${f.district===d?' selected':''}>${d}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><label>Describe symptoms *</label><textarea rows="3" placeholder="e.g. High fever for 2 days, severe vomiting, headache..." oninput="S.form.symptoms=this.value">${f.symptoms}</textarea></div>
+    <div class="fg"><label>Possible contact history</label><textarea rows="2" placeholder="e.g. Visited sick family member, attended a funeral..." oninput="S.form.contact=this.value">${f.contact}</textarea></div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-brand" onclick="submitReport()"><i class="ti ti-send" aria-hidden="true"></i> Submit report</button>
+      <span style="font-size:12px;color:var(--text-muted)"><i class="ti ti-lock" aria-hidden="true"></i> Encrypted & confidential</span>
+    </div>
+  </div>
+  </div>`;}
+
+/* ── EDUCATION ── */
+function pEdu(){return`<div class="page">
+  <div style="margin-bottom:18px">
+    <div style="font-size:11px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Know the facts</div>
+    <h2 style="font-size:20px;font-weight:800;color:var(--text)">Ebola Education Centre</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-top:4px">Trusted, evidence-based information about Ebola Virus Disease</p>
+  </div>
+
+  <!-- top 4-col info grid -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px">
+    ${[
+      ['ti-virus','What is Ebola?','#e63946','Ebola Virus Disease (EVD) is a severe, often fatal illness caused by the Ebola virus. Uganda has faced multiple outbreaks since 2000, including the 2022 Sudan strain.'],
+      ['ti-users','How it spreads','#f4a261','Ebola spreads through direct contact with blood or body fluids of infected people. It is NOT airborne. Common routes include caring for sick patients and handling deceased bodies.'],
+      ['ti-shield','Prevention','#05668d','Wash hands frequently. Avoid contact with sick individuals\' bodily fluids. Use PPE when caring for patients. Avoid handling bushmeat. Follow official health authority guidance.'],
+      ['ti-thermometer','Symptoms','#028090','Symptoms appear 2–21 days after exposure: sudden fever, severe headache, vomiting, diarrhoea, rash, and unexplained bleeding. Seek medical care immediately.'],
+    ].map(([ico,t,ac,d])=>`
+    <div class="card" style="display:flex;flex-direction:column;gap:12px">
+      <div style="width:42px;height:42px;border-radius:10px;background:${ac}18;display:flex;align-items:center;justify-content:center;color:${ac};font-size:22px">
+        <i class="ti ${ico}" aria-hidden="true"></i>
+      </div>
+      <div style="font-weight:700;font-size:14px;color:var(--text)">${t}</div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.6;flex:1">${d}</div>
+    </div>`).join('')}
+  </div>
+
+  <!-- myths vs facts: 2-col grid -->
+  <div class="card">
+    <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px">
+      <i class="ti ti-eye" style="color:var(--brand)" aria-hidden="true"></i> Myths vs facts
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0">
+      ${[
+        [false,'Ebola spreads through the air like flu','Ebola does NOT spread through the air. Direct contact with bodily fluids is required for transmission.'],
+        [false,'Ebola is always fatal','With proper medical care, survival rates can exceed 90%. Early treatment dramatically improves outcomes.'],
+        [true,'Healthcare workers face elevated risk','Without proper PPE, healthcare workers are at high risk. Full protective equipment is mandatory.'],
+        [false,'Traditional medicine can cure Ebola','No proven traditional cure exists. The rVSV-ZEBOV vaccine shows strong clinical efficacy.'],
+        [true,'Vaccines are now available','The rVSV-ZEBOV (Ervebo) vaccine is WHO-approved and effective against Zaire ebolavirus.'],
+        [false,'You can get Ebola from food or water','Unlike cholera, Ebola is not waterborne. Normal food and water do not pose a transmission risk.'],
+      ].map(([fact,myth,truth])=>`
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-bottom:1px solid var(--gray-100)">
+        <div style="width:22px;height:22px;border-radius:6px;background:${fact?'var(--green-light)':'var(--red-light)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
+          <i class="ti ${fact?'ti-check':'ti-x'}" style="font-size:13px;color:${fact?'#065f46':'#b91c1c'}" aria-hidden="true"></i>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:${fact?'#065f46':'#b91c1c'};text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px">${fact?'Fact':'Myth'}</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">${myth}</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.5">${truth}</div>
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+</div>`;}
+
+/* ── ALERTS ── */
+function pAlerts(){
+  const types=['ALL','HIGH','MEDIUM','INFO','LOW'];
+  const list=S.alertF==='ALL'?ALERTS:ALERTS.filter(a=>a.type===S.alertF);
+  return`<div class="page">
+  <!-- header + prefs: flex row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px">
+    <div>
+      <div style="font-size:11px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Live updates</div>
+      <h2 style="font-size:20px;font-weight:800;color:var(--text)">Alert Centre</h2>
+      <p style="font-size:13px;color:var(--text-muted);margin-top:4px">Ministry of Health — Uganda</p>
+    </div>
+    <!-- notification prefs card -->
+    <div class="card card-sm" style="display:flex;flex-direction:column;gap:10px;min-width:200px">
+      <div style="font-size:12px;font-weight:700;color:var(--text)">Notification preferences</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+        <div>
+          <div style="font-size:13px;font-weight:500">SMS alerts</div>
+          <div style="font-size:11px;color:var(--text-muted)">Mobile notifications</div>
+        </div>
+        <label class="tog"><input type="checkbox" ${S.sms?'checked':''} onchange="S.sms=this.checked"><span class="ts"></span></label>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+        <div>
+          <div style="font-size:13px;font-weight:500">Email alerts</div>
+          <div style="font-size:11px;color:var(--text-muted)">Inbox notifications</div>
+        </div>
+        <label class="tog"><input type="checkbox" ${S.email?'checked':''} onchange="S.email=this.checked"><span class="ts"></span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- filter pills -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+    ${types.map(t=>`<button onclick="S.alertF='${t}';render()" style="padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid ${S.alertF===t?'var(--brand)':'var(--gray-200)'};background:${S.alertF===t?'var(--brand)':'#fff'};color:${S.alertF===t?'#fff':'var(--text-muted)'};cursor:pointer;transition:.15s">${t}</button>`).join('')}
+  </div>
+
+  <!-- alert list -->
+  <div style="display:flex;flex-direction:column;gap:0">
+    ${list.map(a=>`
+    <div class="al-strip al-${a.type}">
+      <div class="al-dot d-${a.type}"></div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">${a.title}</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.5">${a.msg}</div>
+        <div style="font-size:11px;color:var(--gray-400);margin-top:5px;display:flex;align-items:center;gap:4px"><i class="ti ti-clock" aria-hidden="true"></i>${a.time}</div>
+      </div>
+      <span class="badge ${a.type==='HIGH'?'b-high':a.type==='MEDIUM'?'b-med':a.type==='LOW'?'b-low':'b-info'}">${a.type}</span>
+    </div>`).join('')}
+  </div>
+</div>`;}
+
+/* ── LOGIN ── */
+function pLogin(){return`<div class="page">
+  <div style="max-width:380px;margin:30px auto">
+    <div class="card" style="padding:28px">
+      <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:22px;text-align:center">
+        <div style="width:52px;height:52px;background:var(--brand);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;margin-bottom:12px">
+          <i class="ti ti-lock" aria-hidden="true"></i>
+        </div>
+        <h2 style="font-size:18px;font-weight:800;color:var(--text)">Admin Access</h2>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:4px">Any credentials work for this prototype</p>
+      </div>
+      ${S.err?`<div style="background:var(--red-light);border:1px solid var(--red);border-radius:8px;padding:10px 12px;font-size:13px;color:#b91c1c;margin-bottom:14px;display:flex;align-items:center;gap:8px"><i class="ti ti-alert-circle" aria-hidden="true"></i>${S.err}</div>`:''}
+      <div class="fg"><label>Username</label><input type="text" id="lu" value="${S.user}" placeholder="Enter any username" oninput="S.user=this.value"></div>
+      <div class="fg"><label>Password</label><input type="password" id="lp" value="${S.pass}" placeholder="Enter any password" oninput="S.pass=this.value" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn btn-brand" style="width:100%;justify-content:center" onclick="doLogin()">
+        <i class="ti ti-login" aria-hidden="true"></i> Login to dashboard
+      </button>
+    </div>
+  </div>
+</div>`;}
+
+/* ── DASHBOARD ── */
+function pDash(){
+  const total=S.reports.length;
+  const high=S.reports.filter(r=>r.risk==='High').length;
+  const med=S.reports.filter(r=>r.risk==='Medium').length;
+  const low=total-high-med;
+  const districts=[...new Set(S.reports.map(r=>r.district))];
+  return`<div class="page">
+
+  <!-- dashboard header row -->
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px">
+    <div>
+      <div style="font-size:11px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Ministry of Health · Uganda</div>
+      <h2 style="font-size:20px;font-weight:800;color:var(--text)">Admin Dashboard</h2>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:8px;height:8px;border-radius:50%;background:#22c55e"></div>
+      <span style="font-size:12px;color:var(--text-muted)">Live · Last updated just now</span>
+      <button class="btn btn-red btn-sm" onclick="S.admin=false;S.user='';S.pass='';go('home')"><i class="ti ti-logout" aria-hidden="true"></i> Logout</button>
+    </div>
+  </div>
+
+  <!-- 4-col stat grid -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:20px">
+    ${[
+      [total,'Total reports','var(--brand)','ti-clipboard-list'],
+      [high,'High risk','var(--red)','ti-alert-triangle'],
+      [med,'Medium risk','var(--amber)','ti-alert-circle'],
+      [low,'Low risk','var(--green)','ti-circle-check'],
+    ].map(([n,l,c,ico])=>`
+    <div class="card card-sm" style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px">${l}</span>
+        <i class="ti ${ico}" style="font-size:16px;color:${c}" aria-hidden="true"></i>
+      </div>
+      <div style="font-size:28px;font-weight:800;color:${c}">${n}</div>
+    </div>`).join('')}
+  </div>
+
+  <!-- 2-col: analytics + quick actions -->
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:20px;align-items:start">
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:6px"><i class="ti ti-chart-bar" style="color:var(--brand)" aria-hidden="true"></i> Cases by district</div>
+      ${districts.map(d=>{const n=S.reports.filter(r=>r.district===d).length;const pct=Math.round((n/total)*100);return`
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+          <span style="font-weight:600;color:var(--text)">${d}</span>
+          <span style="color:var(--text-muted)">${n} case${n!==1?'s':''} · ${pct}%</span>
+        </div>
+        <div style="background:var(--gray-100);border-radius:4px;height:7px;overflow:hidden">
+          <div style="height:100%;background:var(--brand);border-radius:4px;width:${pct}%;transition:width .4s"></div>
+        </div>
+      </div>`;}).join('')}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card card-sm">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Quick actions</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn btn-brand btn-sm" onclick="go('alerts')" style="width:100%;justify-content:center"><i class="ti ti-bell" aria-hidden="true"></i> View alerts</button>
+          <button class="btn btn-outline btn-sm" onclick="go('report')" style="width:100%;justify-content:center"><i class="ti ti-plus" aria-hidden="true"></i> Add report</button>
+          <button class="btn btn-outline btn-sm" onclick="go('education')" style="width:100%;justify-content:center"><i class="ti ti-book" aria-hidden="true"></i> Education</button>
+        </div>
+      </div>
+      <div class="card card-sm" style="background:var(--brand-light);border-color:var(--brand-mid)">
+        <div style="font-size:12px;font-weight:700;color:var(--brand-xdark);margin-bottom:6px">System status</div>
+        ${[['Reporting system','Online'],['SMS gateway','Active'],['WHO sync','Connected']].map(([k,v])=>`<div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--brand-mid)"><span style="color:var(--brand-dark)">${k}</span><span style="font-weight:600;color:var(--green)">${v}</span></div>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- full-width case table -->
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:14px;font-weight:700;color:var(--text)">All reported cases</span>
+      <span class="badge b-info">${S.reports.length} total</span>
+    </div>
+    <div class="tbl-wrap" style="border:none;border-radius:0">
+    <table>
+      <thead><tr><th>#</th><th>Name</th><th>District</th><th>Date</th><th>Symptoms</th><th>Risk</th></tr></thead>
+      <tbody>
+      ${S.reports.map(r=>`<tr>
+        <td style="color:var(--gray-400);font-size:12px">${r.id}</td>
+        <td style="font-weight:600">${r.name}</td>
+        <td>${r.district}</td>
+        <td style="color:var(--text-muted);white-space:nowrap">${r.date}</td>
+        <td style="max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text-muted)">${r.symptoms}</td>
+        <td><span class="badge ${r.risk==='High'?'b-high':r.risk==='Medium'?'b-med':'b-low'}">${r.risk}</span></td>
+      </tr>`).join('')}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>`;}
+
+function calcRisk(){
+  const a=S.ans;const y=Object.values(a).filter(v=>v==='yes').length;
+  S.result=a.bleed==='yes'||a.contact==='yes'||y>=3?'High':y>=2?'Medium':'Low';render();
+}
+function submitReport(){
+  if(!S.form.district){alert('Please select a district.');return;}
+  if(!S.form.symptoms.trim()){alert('Please describe the symptoms.');return;}
+  const y=Object.values(S.ans||{}).filter(v=>v==='yes').length;
+  const risk=y>=3?'High':y>=2?'Medium':'Low';
+  S.reports.unshift({id:S.reports.length+1,...S.form,name:S.form.name||'Anonymous',date:new Date().toISOString().split('T')[0],risk});
+  S.form={name:'',phone:'',district:'',symptoms:'',contact:''};S.submitted=true;render();
+}
+function doLogin(){
+  if(!S.user.trim()||!S.pass.trim()){S.err='Please enter both username and password.';render();return;}
+  S.admin=true;S.err='';render();
+}
+render();
+</script>
